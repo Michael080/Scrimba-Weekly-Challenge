@@ -1,0 +1,49 @@
+body {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 500;
+    font-size: 75px;
+    background-color: rgba(241, 228, 205, 0.27);
+
+    padding: 33px;
+    padding-left: 17px;
+}
+
+.display {
+    display: flex;
+}
+
+/*
+#input {
+    border: 2px solid black;
+    padding: 1px;
+}
+
+#submit {
+    border: 2px solid black;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+*/
+
+
+#input, #submit {
+    font-size: 75px;
+    font-weight: 200;
+    height: 100px;
+    width: 475px;
+    margin: 0 17px 17px 0;
+    margin-top: 0;
+    margin-bottom: 17px;
+    padding: 8px;
+    border: none;
+    border-radius: 14px;
+}
+
+#input {
+    background-color: #f1e4cd;
+}
+
+#submit {
+    width: 492px;
+    background-color: #55bf49;
+}
