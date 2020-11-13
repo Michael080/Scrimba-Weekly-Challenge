@@ -1,5 +1,6 @@
 const input = document.getElementById('input'),
-    submit = document.getElementById('submit')
+    submit = document.getElementById('submit'),
+    answ = document.querySelector('.solution-display');
 
 // +When the 'Solve' button is clicked
 // -Create a new div with the
@@ -13,6 +14,51 @@ submit.addEventListener('click', function(){
     console.log(input.value);
 })
 
+// function Parser(string, chars)
+
+// input.value = '6 * 7';
+function Parser(string, chars, num1, num2, op, eq) {
+    this.string = input.value;
+    this.chars = chars;
+    this.num1 = num1;
+    this.num2 = num2;
+    this.op = op;
+    this.eq = [num1, op, num2];
+
+    this.setChars = function() {
+        return this.chars = this.string.split(' ');
+    }
+
+    this.setNum1 = function(value){
+        this.num1 = Number(value);
+        return this.num1;
+    }
+
+    this.setNum2 = function(value){
+        this.num2 = Number(value);
+        return this.num2;
+    }
+
+    this.setOp = function() {
+        this.op = this.chars[1];
+    }
+}
+
+const myCalc = new Parser();
+
+// Parse input from DOM
+myCalc.setChars();
+myCalc.setNum1(myCalc.chars[0]);
+myCalc.setNum2(myCalc.chars[2]);
+myCalc.setOp(); // id user spec'd math operation +, -, *, /. etc.
+
+// TODO --- Use setOp to set the type of operation & execution of operation should happen elsewhere
+// const operators = {
+//     'add' : oper = () => {
+//         console.log(typeof(num1));
+//         console.log(this.num1 + this.num2);
+//     }
+// }
 
 /*
 Part 1 (Calculation):
