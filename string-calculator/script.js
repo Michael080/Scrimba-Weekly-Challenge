@@ -1,6 +1,6 @@
 const input = document.getElementById('input'),
     submit = document.getElementById('submit'),
-    answ = document.querySelector('.solution-display');
+    solution = document.querySelector('.solution-display');
 
 // +When the 'Solve' button is clicked
 // -Create a new div with the
@@ -10,13 +10,9 @@ const input = document.getElementById('input'),
 // -This element should be added as a child of
 // the `solutionDisplay` div
 
-submit.addEventListener('click', function(){
-    console.log(input.value);
-})
 
-// function Parser(string, chars)
 
-// input.value = '6 * 7';
+// Identify operator, numbers, and convert string input into numbers
 function Parser(string, chars, num1, num2, op, eq) {
     this.string = input.value;
     this.chars = chars;
@@ -24,42 +20,98 @@ function Parser(string, chars, num1, num2, op, eq) {
     this.num2 = num2;
     this.op = op;
     this.eq = [num1, op, num2];
-
-    this.setChars = function() {
-        return this.chars = this.string.split(' ');
+    // Remove white space and store resultant array
+    this.setChars = () => {
+        this.chars = this.string.split(' ');
+        return this;
     }
 
-    this.setNum1 = function(value){
+    this.setNum1 = value => {
         this.num1 = Number(value);
-        return this.num1;
+        return this;
     }
 
-    this.setNum2 = function(value){
+    this.setNum2 = value => {
         this.num2 = Number(value);
-        return this.num2;
+        console.log('num2: ', this.num2);
+        console.log('typeof(num2): ', typeof(this.num2));
+        return this;
     }
 
-    this.setOp = function() {
+    this.setOp = () => {
         this.op = this.chars[1];
+        return this;
     }
 }
 
-const myCalc = new Parser();
+const parseInput = function() {
+    // Parse input from DOM
+    let parser = new Parser(); // create parser
+    parser
+        .setChars()
+        .setNum1(parser.chars[0])
+        .setNum2(parser.chars[2])
+        .setOp(); // id user spec'd math operation +, -, *, /. etc.
+    console.log('parseInput(): ', parser);
+    return parser;
+}
 
-// Parse input from DOM
-myCalc.setChars();
-myCalc.setNum1(myCalc.chars[0]);
-myCalc.setNum2(myCalc.chars[2]);
-myCalc.setOp(); // id user spec'd math operation +, -, *, /. etc.
+function calculator(num1, num2, operator, obj) {
 
-// TODO --- Use setOp to set the type of operation & execution of operation should happen elsewhere
-// const operators = {
-//     'add' : oper = () => {
-//         console.log(typeof(num1));
-//         console.log(this.num1 + this.num2);
-//     }
-// }
+    const checkInt = num => {
+        !Number.isInteger(num) ? (num = round(num, 2)) : console.log(`${num} is an integer`);
+        return num;
+    }
 
+    const round = (value, decimals) => {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+
+    const operations = {
+        '+' : sum = (num1, num2) => {
+            let result = checkInt(num1 + num2);
+            console.log('fuckin sum!', result);
+            return result;
+        },
+        '-' : subtract = (num1, num2) => {
+            let result = num1 - num2;
+            console.log('fuckin subract!', result);
+            return result;
+        },
+        '/' : divide = (num1, num2) => {
+            let result = checkInt(num1 / num2);
+            console.log('fuckin divide!', result);
+            return result;
+        },
+        'def' : def = () => {
+            let result = 'invalid input';
+            console.log('invalid input');
+            return result;
+        }
+    }
+    return operations[operator](num1, num2) || operations['def']();
+}
+
+// TODO --- final form
+submit.addEventListener('click', function(){
+    let parser = parseInput();
+    let num1 = parser.num1;
+    let num2 = parser.num2;
+    let op = parser.op;
+    // console.log('num2 --listener: ', num2 + 5);
+    // console.log('typeof(num2) --listener: ', typeof(num2));
+    // console.log('op --listener: ', op);
+    // console.log('typeof(op) --listener: ', typeof(op));
+    // const result =    solution.textContent = calculator(num1, num2, op, parser);
+});
+
+// let parser = parseInput();
+//
+// console.log('parser --global: ', parser);
+// console.log('parser --- global: ', parser);
+
+// *! TESTS
+// module.exports = parser;
 /*
 Part 1 (Calculation):
     +Your first goal is to solve a simple text-based
