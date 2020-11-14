@@ -84,6 +84,10 @@ function calculator(num1, num2, operator, obj) {
             let result = checkInt(num1 / num2);
             return result;
         },
+        '*' : (num1, num2) => {
+            let result = checkInt(num1 * num2);
+            return result;
+        },
         'def' : def = () => {
             let result = 'invalid input';
             return result;
