@@ -2,8 +2,7 @@
 const input = document.getElementById('input'),
      submit = document.getElementById('submit'),
    solution = document.querySelector('.solution-display'),
-    operation = document.querySelector('.operation'),
-    final = document.querySelector('.final-solution');
+    operation = document.querySelector('.operation');
 
 // Identify operator, numbers, and convert string input into numbers:
 function Parser(string, chars, num1, num2, op, eq) {
@@ -109,6 +108,7 @@ function runCalc() {
     const op =     parser.op;
     const sol = calculator(num1, num2, op, parser);
     displaySol(sol, num1, op, num2); //display operation && results
+    input.addEventListener('click', clearSolution);
 }
 
 // Create DOM nodes for each element of the operation and display
@@ -136,6 +136,14 @@ function displaySol(sol, ...operators){
     }
 }
 
+function clearSolution() {
+    solution.childElementCount > 0 ? removeChildren() : 'no elements to remove';
+}
+
+function removeChildren(parent = solution) {
+    const children = Array.from(parent.childNodes);
+    children.forEach(child => parent.removeChild(child));
+}
 // input.value = '6+2';
 // let parser = parseInput();
 // Run calculator on click-of-submit !!!
