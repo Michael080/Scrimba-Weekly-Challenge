@@ -63,7 +63,7 @@ const parseInput = function() {
 function calculator(num1, num2, operator, obj) {
     // Check 'solution' is integer, if not, round to two decimal places
     const checkInt = num => {
-        !Number.isInteger(num) ? (num = round(num, 2)) : console.log(`${num} is an integer`);
+        !Number.isInteger(num) ? (num = round(num, 2)) : num = num;
         return num;
     }
 
@@ -72,15 +72,15 @@ function calculator(num1, num2, operator, obj) {
     }
     // Use as 'switch' to access user spec'd operation after input is parsed
     const operations = {
-        '+' : sum = (num1, num2) => {
+        '+' : (num1, num2) => {
             let result = checkInt(num1 + num2);
             return result;
         },
-        '-' : subtract = (num1, num2) => {
-            let result = num1 - num2;
+        '-' : (num1, num2) => {
+            let result = checkInt(num1 - num2);
             return result;
         },
-        '/' : divide = (num1, num2) => {
+        '/' : (num1, num2) => {
             let result = checkInt(num1 / num2);
             return result;
         },
@@ -88,13 +88,17 @@ function calculator(num1, num2, operator, obj) {
             let result = checkInt(num1 * num2);
             return result;
         },
-        'def' : def = () => {
+        'def' : () => {
             let result = 'invalid input';
             return result;
         }
     }
 
-    return operations[operator](num1, num2) || operations['def']();
+    if (operations[operator](num1, num2) !== 0) {
+        return operations[operator](num1, num2) || operations['def']();
+    } else {
+        return 0;
+    }
 }
 
 // Parse input and update DOM w/ resultant nodes
@@ -104,7 +108,7 @@ function runCalc() {
     const num2 =   parser.num2;
     const op =     parser.op;
     const sol = calculator(num1, num2, op, parser);
-    displaySol(sol, num1, op, num2);
+    displaySol(sol, num1, op, num2); //display operation && results
 }
 
 // Create DOM nodes for each element of the operation and display
@@ -128,8 +132,6 @@ function displaySol(sol, ...operators){
     }
 
     function updateDOM(node, parent) {
-        console.log('updateDOM(): parent', parent);
-        console.log('updateDOM(): node', node);
         parent.appendChild(node);
     }
 }
