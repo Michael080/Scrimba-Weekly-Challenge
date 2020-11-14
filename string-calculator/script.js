@@ -1,18 +1,9 @@
+// DOM elements:
 const input = document.getElementById('input'),
-    submit = document.getElementById('submit'),
-    solution = document.querySelector('.solution-display');
+     submit = document.getElementById('submit'),
+   solution = document.querySelector('.solution-display');
 
-// +When the 'Solve' button is clicked
-// -Create a new div with the
-// class 'equation-component'
-// its text value should be the solution
-// to the input equation
-// -This element should be added as a child of
-// the `solutionDisplay` div
-
-
-
-// Identify operator, numbers, and convert string input into numbers
+// Identify operator, numbers, and convert string input into numbers:
 function Parser(string, chars, num1, num2, op, eq) {
     this.string = input.value;
     this.chars = chars;
@@ -20,44 +11,55 @@ function Parser(string, chars, num1, num2, op, eq) {
     this.num2 = num2;
     this.op = op;
     this.eq = [num1, op, num2];
-    // Remove white space and store resultant array
-    this.setChars = () => {
-        this.chars = this.string.split(' ');
-        return this;
+
+    this.checkString = () => {
+        return this.string.includes(' ');
     }
 
+    this.formatString = () => {
+        let format;
+        this.checkString() ?
+            format = this.string.split(' ') :
+            format = this.string.split('');
+        return format;
+    }
+
+    // Remove white space and store resultant array
+    this.setChars = () => {
+        this.chars = this.formatString();
+        return this; // return this for chaining
+    }
+    // setNum/s store input as Numbers
     this.setNum1 = value => {
         this.num1 = Number(value);
-        return this;
+        return this; // return this for chaining
     }
 
     this.setNum2 = value => {
         this.num2 = Number(value);
-        console.log('num2: ', this.num2);
-        console.log('typeof(num2): ', typeof(this.num2));
-        return this;
+        return this; // return this for chaining
     }
-
+    // store user spec'd operation
     this.setOp = () => {
         this.op = this.chars[1];
-        return this;
+        return this; // return this for chaining
     }
 }
 
+// Create new Parser, parse input, return parsed data
 const parseInput = function() {
-    // Parse input from DOM
-    let parser = new Parser(); // create parser
+    let parser = new Parser();
+    // Parse input from user
     parser
         .setChars()
         .setNum1(parser.chars[0])
         .setNum2(parser.chars[2])
         .setOp(); // id user spec'd math operation +, -, *, /. etc.
-    console.log('parseInput(): ', parser);
     return parser;
 }
 
 function calculator(num1, num2, operator, obj) {
-
+    // Check 'solution' is integer, if not, round to two decimal places
     const checkInt = num => {
         !Number.isInteger(num) ? (num = round(num, 2)) : console.log(`${num} is an integer`);
         return num;
@@ -66,64 +68,50 @@ function calculator(num1, num2, operator, obj) {
     const round = (value, decimals) => {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     }
-
+    // Use as 'switch' to access user spec'd operation after input is parsed
     const operations = {
         '+' : sum = (num1, num2) => {
             let result = checkInt(num1 + num2);
-            console.log('fuckin sum!', result);
             return result;
         },
         '-' : subtract = (num1, num2) => {
             let result = num1 - num2;
-            console.log('fuckin subract!', result);
             return result;
         },
         '/' : divide = (num1, num2) => {
             let result = checkInt(num1 / num2);
-            console.log('fuckin divide!', result);
             return result;
         },
         'def' : def = () => {
             let result = 'invalid input';
-            console.log('invalid input');
             return result;
         }
     }
+
     return operations[operator](num1, num2) || operations['def']();
 }
 
-// TODO --- final form
-submit.addEventListener('click', function(){
-    let parser = parseInput();
-    let num1 = parser.num1;
-    let num2 = parser.num2;
-    let op = parser.op;
-    // console.log('num2 --listener: ', num2 + 5);
-    // console.log('typeof(num2) --listener: ', typeof(num2));
-    // console.log('op --listener: ', op);
-    // console.log('typeof(op) --listener: ', typeof(op));
-    // const result =    solution.textContent = calculator(num1, num2, op, parser);
-});
+function runCalc() {
+    const parser = parseInput();
+    const num1 =   parser.num1;
+    const num2 =   parser.num2;
+    const op =     parser.op;
+    solution.textContent = calculator(num1, num2, op, parser);
+}
 
-// let parser = parseInput();
-//
-// console.log('parser --global: ', parser);
-// console.log('parser --- global: ', parser);
+function displaySol(num1, num2, op, solution){
+
+}
+
+input.value = '6+2';
+let parser = parseInput();
+// Run calculator on click-of-submit !!!
+submit.addEventListener('click', runCalc);
 
 // *! TESTS
 // module.exports = parser;
 /*
-Part 1 (Calculation):
-    +Your first goal is to solve a simple text-based
-        math problem entered in the input field
-    +The problem can be add/sub/multiply/divide
-    +Here are few examples:
-        "3 + 3" -> 6
-        "10 - 3" -> 7
-        "44 / 2" -> 22
-        "2 * 8" -> 16
-    +When the 'Solve' button is clicked
-        -Create a new div with the
+
             class 'equation-component'
             its text value should be the solution
             to the input equation
