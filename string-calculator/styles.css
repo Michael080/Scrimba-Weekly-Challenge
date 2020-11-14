@@ -3,7 +3,6 @@ body {
     font-weight: 500;
     font-size: 75px;
     background-color: rgba(241, 228, 205, 0.27);
-
     padding: 33px;
     padding-left: 17px;
 }
@@ -13,10 +12,20 @@ body {
     flex-direction: column;
 }
 
+.solution-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 750px;
+    flex-wrap: wrap;
+}
+
 .equation-component {
-    width: min-content;
-    padding: 8px;
+    text-align: center;
     background-color: #ff9a8a;
+    width: 75px;
+    padding: 8px;
+    border-radius: 14px;
 }
 
 #input, #submit {

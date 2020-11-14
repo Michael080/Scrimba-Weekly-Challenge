@@ -1,7 +1,9 @@
 // DOM elements:
 const input = document.getElementById('input'),
      submit = document.getElementById('submit'),
-   solution = document.querySelector('.solution-display');
+   solution = document.querySelector('.solution-display'),
+    operation = document.querySelector('.operation'),
+    final = document.querySelector('.final-solution');
 
 // Identify operator, numbers, and convert string input into numbers:
 function Parser(string, chars, num1, num2, op, eq) {
@@ -91,20 +93,45 @@ function calculator(num1, num2, operator, obj) {
     return operations[operator](num1, num2) || operations['def']();
 }
 
+// Parse input and update DOM w/ resultant nodes
 function runCalc() {
     const parser = parseInput();
     const num1 =   parser.num1;
     const num2 =   parser.num2;
     const op =     parser.op;
-    solution.textContent = calculator(num1, num2, op, parser);
+    const sol = calculator(num1, num2, op, parser);
+    displaySol(sol, num1, op, num2);
 }
 
-function displaySol(num1, num2, op, solution){
+// Create DOM nodes for each element of the operation and display
+function displaySol(sol, ...operators){
+    //create/add nodes for left-hand side of operation
+    operators.map(value => createElem('div', 'equation-component', value, solution));
+    //create/add nodes for right-hand side of operation
+    createElem('div', 'equation-component', '=', solution); //display equals sign
+    createElem('div', 'equation-component', sol, solution);
+    // create elements, add css-class, populate text, and append to parent-node
+    function createElem(type, cssClass, value, parentNode) {
+        let elem = document.createElement(type);
+        elem.classList.add(cssClass);
+        popContent(elem, value);
+        updateDOM(elem, parentNode);
+        return elem;
+    }
 
+    function popContent(elem, val) {
+        elem.textContent = val;
+    }
+
+    function updateDOM(node, parent) {
+        console.log('updateDOM(): parent', parent);
+        console.log('updateDOM(): node', node);
+        parent.appendChild(node);
+    }
 }
 
-input.value = '6+2';
-let parser = parseInput();
+// input.value = '6+2';
+// let parser = parseInput();
 // Run calculator on click-of-submit !!!
 submit.addEventListener('click', runCalc);
 
