@@ -2,7 +2,7 @@
 const input = document.getElementById('input'),
      submit = document.getElementById('submit'),
    solution = document.querySelector('.solution-display'),
-    operation = document.querySelector('.operation');
+  operation = document.querySelector('.operation');
 
 // Identify operator, numbers, and convert string input into numbers:
 function Parser(string, chars, num1, num2, op, eq) {
@@ -14,17 +14,15 @@ function Parser(string, chars, num1, num2, op, eq) {
     this.eq = [num1, op, num2];
 
     this.checkString = () => {
-        return this.string.includes(' ');
+        return this.string.includes(' '); //check string for whitespace
     }
-
     this.formatString = () => {
         let format;
         this.checkString() ?
-            format = this.string.split(' ') :
-            format = this.string.split('');
+            format = this.string.split(' ') : //remove whitespace && create array
+            format = this.string.split('');   //create array
         return format;
     }
-
     // Remove white space and store resultant array
     this.setChars = () => {
         this.chars = this.formatString();
@@ -35,7 +33,6 @@ function Parser(string, chars, num1, num2, op, eq) {
         this.num1 = Number(value);
         return this; // return this for chaining
     }
-
     this.setNum2 = value => {
         this.num2 = Number(value);
         return this; // return this for chaining
@@ -69,7 +66,7 @@ function calculator(num1, num2, operator, obj) {
     const round = (value, decimals) => {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     }
-    // Use as 'switch' to access user spec'd operation after input is parsed
+    // Use as 'switch' to access/implement user spec'd operation after input is parsed
     const operations = {
         '+' : (num1, num2) => {
             let result = checkInt(num1 + num2);
@@ -92,7 +89,7 @@ function calculator(num1, num2, operator, obj) {
             return result;
         }
     }
-
+    // check for result of 0 as it evaluates to falsey
     if (operations[operator](num1, num2) !== 0) {
         return operations[operator](num1, num2) || operations['def']();
     } else {
@@ -144,8 +141,7 @@ function removeChildren(parent = solution) {
     const children = Array.from(parent.childNodes);
     children.forEach(child => parent.removeChild(child));
 }
-// input.value = '6+2';
-// let parser = parseInput();
+
 // Run calculator on click-of-submit !!!
 submit.addEventListener('click', runCalc);
 
@@ -153,34 +149,12 @@ submit.addEventListener('click', runCalc);
 // module.exports = parser;
 /*
 
-            class 'equation-component'
-            its text value should be the solution
-            to the input equation
-        -This element should be added as a child of
-            the `solutionDisplay` div
-
-    Note: You can assume there will always only be 2 values,
-        both whole integers, and always a space between each
-        integer and the operator as in the above examples
-
-
-Part 2 (Flex Display):
-    Then, you'll Flex your Flexbox skills!
-    + Vertically stack the contents of the mainContainer
-    + Center the content horizontally
-    + Display all components of the equation
-        in the solutionDisplay using a horizontal Flexbox
-        with `space around` each component
-
-Skills:
-    Event Listeners, String Manipulation, Array Manipulation,
-Arithmetic, DOM Manipulation, Flexbox
-
-
-
 STRETCH GOALS:
     +Accept and solve more complex problems with more than 2 inputs
     +Signal the different types of components (operator/value/solution) with different colors
     +Accept strings without spaces
-    +C
+    +Make UI look like a real calculator:
+        -Make segmented LCD style display? (http://www.vintagecalculators.com/html/calculator_display_technology.html)
+        -Animate calc buttons as user inputs
+        -Show segment electrodes of LCD to further dopeify? (see illustration from above link 'Liquid Crystal Display')
 */
