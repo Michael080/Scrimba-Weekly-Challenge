@@ -10,21 +10,14 @@ body {
 
 .display {
     display: flex;
+    flex-direction: column;
 }
 
-/*
-#input {
-    border: 2px solid black;
-    padding: 1px;
+.equation-component {
+    width: min-content;
+    padding: 8px;
+    background-color: #ff9a8a;
 }
-
-#submit {
-    border: 2px solid black;
-    padding-right: 8px;
-    padding-left: 8px;
-}
-*/
-
 
 #input, #submit {
     font-size: 75px;
